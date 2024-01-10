@@ -111,40 +111,42 @@ class BinaryTree<T extends Comparable> {
     return root;
   }
 
-  List<T?> list = [];
-
-  List<T?> toList() {
-    list.clear();
-    _treeToList(root);
+  List<T> toList() {
+    List<T> list = [];
+    _treeToList(root,list: list);
     return list;
   }
 
-  List<T>? toOrderedList() {
-    List<T> _list = [];
-    list.clear();
-    _treeToList(root);
-    for (var element in list) {
-      if (_list.isNotEmpty) {
-        for (int i = 0; i < _list.length;i++) {
-          if (element!.compareTo(_list[i]) > 0) {
-            _list.insert(i,element);
-            break;
-          }
-        }
-      } else {
-        _list.add(element!);
-      }
-    }
-    return _list;
-  }
+  // List<T>? toOrderedList() {
+  //   List<T> _list = [];
+  //   list.clear();
+  //   _treeToList(root);
+  //   for (var element in list) {
+  //     if (_list.isNotEmpty) {
+  //       for (int i = 0; i < _list.length;i++) {
+  //         if (element!.compareTo(_list[i]) > 0) {
+  //           _list.insert(i,element);
+  //           break;
+  //         }
+  //       }
+  //     } else {
+  //       _list.add(element!);
+  //     }
+  //   }
+  //   return _list;
+  // }
 
-  void _treeToList(
-    TreeNode<T>? node,
-  ) {
+
+  // List<T>? toOrderedList(){
+  //
+  //
+  //
+  // }
+  void _treeToList(TreeNode<T>? node, {List<T> ?list}) {
     if (node == null) return;
-    _treeToList(node.left);
-    _treeToList(node.right);
-    list.add(node.val);
+    _treeToList(node.left,list: list);
+     list?.add(node.val!);
+    _treeToList(node.right,list: list);
   }
 
   void add(T val) {
@@ -193,6 +195,6 @@ class TreeNode<T extends Comparable> {
   TreeNode({
     this.left,
     this.right,
-    this.val,
+    this.val  ,
   });
 }

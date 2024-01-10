@@ -1,5 +1,5 @@
 
-import 'binary _tree.dart';
+import 'binary/binary _tree.dart';
 
 /// create by 星星 on 2024/1/1
 /// contact me by email 1395723441@qq.com
@@ -16,5 +16,5 @@ BinaryTree tree = BinaryTree<int>();
   // print("${tree.findMin()}");
 
    // TreePrinter().printTreeNode(tree.mergeTrees(tree1.root, tree2.root),0);
-  print("${tree2.toOrderedList()}");
+  print("${tree2.toList()}");
 }
