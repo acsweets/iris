@@ -1,3 +1,5 @@
+import 'dart:html';
+
 /// create by 星星 on 2024/1/1
 /// contact me by email 1395723441@qq.com
 /// 说明:
@@ -29,7 +31,7 @@
 class BinaryTree<T extends Comparable> {
   TreeNode<T>? root;
 
-  BinaryTree();
+  BinaryTree({this.root});
 
   factory BinaryTree.fromArray(List<T> array) {
     BinaryTree<T> tree = BinaryTree<T>();
@@ -42,6 +44,11 @@ class BinaryTree<T extends Comparable> {
   T findMax() {
     return _findValue(root, type: "max")!;
   }
+
+  BinaryTree<T> copy({ TreeNode<T>? root}) {
+    return BinaryTree<T>(root:this.root);
+  }
+
 
   T findMin() {
     return _findValuePro(root, type: "min")!;
@@ -113,7 +120,7 @@ class BinaryTree<T extends Comparable> {
 
   List<T> toList() {
     List<T> list = [];
-    _treeToList(root,list: list);
+    _treeToList(root, list: list);
     return list;
   }
 
@@ -144,9 +151,9 @@ class BinaryTree<T extends Comparable> {
   // }
   void _treeToList(TreeNode<T>? node, {List<T> ?list}) {
     if (node == null) return;
-    _treeToList(node.left,list: list);
-     list?.add(node.val!);
-    _treeToList(node.right,list: list);
+    _treeToList(node.left, list: list);
+    list?.add(node.val!);
+    _treeToList(node.right, list: list);
   }
 
   void add(T val) {
@@ -195,6 +202,6 @@ class TreeNode<T extends Comparable> {
   TreeNode({
     this.left,
     this.right,
-    this.val  ,
+    this.val,
   });
 }
