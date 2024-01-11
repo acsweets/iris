@@ -1,5 +1,3 @@
-import 'dart:html';
-
 /// create by 星星 on 2024/1/1
 /// contact me by email 1395723441@qq.com
 /// 说明:
@@ -28,13 +26,25 @@ import 'dart:html';
 ///
 ///
 /// 快速构建一颗树
-class BinaryTree<T extends Comparable> {
+///
+enum TraversalType{
+  a,
+  b,
+  c,
+  d
+}
+typedef TraversalCallback  = Function (TraversalType type,TreeNode node);
+
+typedef HandleTree<T>  = Function (T  val);
+
+
+class BinarySearchTree<T extends Comparable> {
   TreeNode<T>? root;
 
-  BinaryTree({this.root});
+  BinarySearchTree({this.root});
 
-  factory BinaryTree.fromArray(List<T> array) {
-    BinaryTree<T> tree = BinaryTree<T>();
+  factory BinarySearchTree.fromArray(List<T> array) {
+    BinarySearchTree<T> tree = BinarySearchTree<T>();
     for (var element in array) {
       tree.add(element);
     }
@@ -45,8 +55,12 @@ class BinaryTree<T extends Comparable> {
     return _findValue(root, type: "max")!;
   }
 
-  BinaryTree<T> copy({ TreeNode<T>? root}) {
-    return BinaryTree<T>(root:this.root);
+  BinarySearchTree<T> copy({ TreeNode<T>? root}) {
+    BinarySearchTree<T> tree = BinarySearchTree<T>();
+    traversal(this.root, callback: (val){
+      tree.add(val);
+    });
+    return tree;
   }
 
 
@@ -184,13 +198,14 @@ class BinaryTree<T extends Comparable> {
     traversal(root);
   }
 
-  void traversal(TreeNode<T>? node) {
+  void traversal(TreeNode<T>? node,{HandleTree? callback} ) {
     if (node == null) {
       return;
     }
-    traversal(node.left);
-    traversal(node.right);
-    print(node.val);
+    if(callback!=null) callback.call(node.val);
+    traversal(node.left,callback: callback);
+    traversal(node.right,callback: callback);
+    // print(node.val);
   }
 }
 

@@ -1,5 +1,5 @@
 
-import 'binary/binary _tree.dart';
+import 'binary_search/binary_search_tree.dart';
 
 class TreePrinter{
 

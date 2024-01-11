@@ -1,7 +1,4 @@
-
 import 'tree_node.dart';
-
-
 
 enum ErgodicType {
   preface,
@@ -28,7 +25,7 @@ void main() {
   // TreeNode right = TreeNode(val: "C", left: leftC, right: rightC);
   // TreeNode left = TreeNode(val: "B", left: leftB, right: rightB);
   // TreeNode node = TreeNode(val: "A", left: left, right: right);
-  Map<String,dynamic> map = {
+  Map<String, dynamic> map = {
     "val": 1,
     "id": "00000000001",
     "left": {
@@ -48,7 +45,7 @@ void main() {
       "right": {"id": "00000000008", "val": 8}
     }
   };
-  TreeNode treeNode ;
+  TreeNode treeNode;
   treeNode = TreeNode.formJson(map)!;
   treeNode['00000000003'] = 6;
   // NewTree tree = NewTree(treeNode!);
@@ -151,10 +148,14 @@ class NewTree<T> {
     result.add(node.val);
   }
 
+  void set(String id) {}
 
-  void set(String id){
-
-
+  void traversal(TreeNode? node, ErgodicType type) {
+    if (type == ErgodicType.preface) result.add(node?.val);
+    traversal(node?.left,type);
+    if (type == ErgodicType.middleOrder) result.add(node?.val);
+    traversal(node?.right,type);
+    if (type == ErgodicType.postOrder) result.add(node?.val);
   }
 }
 
