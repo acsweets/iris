@@ -33,4 +33,6 @@ class StackList<T> extends Stack<T> {
   int get size => _items.length;
 
   bool get isEmpty => _items.isEmpty;
+  bool get isNotEmpty => _items.isNotEmpty;
+
 }
