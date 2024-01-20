@@ -8,11 +8,14 @@ import 'topic.dart';
 void main() {
   String first = "({[()]})";
   String second = "({[(]})";
-
-  print(StackTopic.isClosure(first.split('')));
-  print(StackTopic.isClosure(second.split('')));
-  //结果应该 ()()()  ()(())
   String third = "(()())(())(()(()))";
-  print(StackTopic.removeOutermostBracket(third.split('')));
+
+  String four = "(1+(2*3)+((8)/4))+1";
+  // print(StackTopic.isClosure(first.split('')));
+  // print(StackTopic.isClosure(second.split('')));
+  //结果应该 ()()()  ()(())
+  // print(StackTopic.removeOutermostBracket(third.split('')));
+ //结果 3
+  print(StackTopic.maxNestingDepth(four.split('')));
 
 }

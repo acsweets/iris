@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../stack_list/stack_list.dart';
 
 /// 使用栈校验括号是否闭合
@@ -42,12 +44,28 @@ class StackTopic {
     for (String element in symbol) {
       if (element == "(") {
         if (stack.isNotEmpty) result += element;
-         stack.push(element);
+        stack.push(element);
       } else if (element == ")") {
-           stack.pop();
+        stack.pop();
         if (stack.isNotEmpty) result += element;
       }
     }
     return result;
+  }
+
+  //s = "(1+(2*3)+((8)/4))+1"  输出括号的最大嵌套深度  3
+
+  static int maxNestingDepth(List<String> symbol) {
+    StackList<String> stack = StackList();
+    int maxDepth = 0;
+    for (String element in symbol) {
+      if (element == "(") {
+        stack.push(element);
+        maxDepth = max(maxDepth, stack.size);
+      } else if (element == ")") {
+        stack.pop();
+      }
+    }
+    return maxDepth;
   }
 }
