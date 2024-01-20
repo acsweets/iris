@@ -17,5 +17,7 @@ void main() {
   // print(StackTopic.removeOutermostBracket(third.split('')));
  //结果 3
   print(StackTopic.maxNestingDepth(four.split('')));
-
+  List<String>  words = ["one.two.three","four.five","six"];
+  //结果  输出：["one","two","three","four","five","six"]
+  print(StackTopic.splitString(words,"."));
 }

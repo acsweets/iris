@@ -68,4 +68,16 @@ class StackTopic {
     }
     return maxDepth;
   }
+  //2788拆分字符串[数组题]
+//：words = ["one.two.three","four.five","six"], separator = "."
+// 输出：["one","two","three","four","five","six"]
+  static List<String> splitString(List<String> words, String separator) {
+    List<String> result = [];
+    for (String element in words) {
+      result.addAll(element.split(separator));
+    }
+    return result;
+  }
+
+
 }
