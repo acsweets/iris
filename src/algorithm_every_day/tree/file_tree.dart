@@ -43,12 +43,18 @@ class FileTree {
       if (part == '') continue;
       _path += "/$part";
       FileNode addNode = FileNode(_path);
-      if (parent.children.any((element) => element.path == _path)) {
-        parent = parent.children.firstWhere((e) =>e.path ==_path);
-      } else {
+
+      parent = parent.children.firstWhere((element) => element.path == _path, orElse: () {
         parent.children.add(addNode);
-        parent = addNode;
-      }
+        return addNode;
+      });
+
+      // if (parent.children.any((element) => element.path == _path)) {
+      //   parent = parent.children.firstWhere((e) =>e.path ==_path);
+      // } else {
+      //   parent.children.add(addNode);
+      //   parent = addNode;
+      // }
     }
   }
 }
