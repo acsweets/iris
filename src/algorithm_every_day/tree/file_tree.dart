@@ -13,22 +13,42 @@ void main() {
   FileTree fileTree = FileTree();
   fileTree.add('/root/home/hell0.txt');
   fileTree.add('/root/home/hell1.txt');
+  fileTree.add('/root/home/hell3.txt');
+
   print(fileTree);
 }
 
 class FileTree {
   final FileNode _root = FileNode('/');
 
+  // void add(String path) {
+  //   List<String> paths = path.trim().split('/');
+  //   paths.removeWhere((element) => element == "");
+  //   String _path = "";
+  //   FileNode node = _root;
+  //   for (String element in paths) {
+  //     _path += "/$element";
+  //     FileNode addNode = FileNode(_path);
+  //
+  //     node.children.add(addNode);
+  //     node = addNode;
+  //   }
+  // }
+
   void add(String path) {
     List<String> paths = path.trim().split('/');
-    paths.removeWhere((element) => element == "");
+    FileNode parent = _root;
     String _path = "";
-    FileNode node = _root;
-    for (String element in paths) {
-      _path += "/$element";
+    for (String part in paths) {
+      if (part == '') continue;
+      _path += "/$part";
       FileNode addNode = FileNode(_path);
-      node.children.add(addNode);
-      node = addNode;
+      if (parent.children.any((element) => element.path == _path)) {
+        parent = parent.children.firstWhere((e) =>e.path ==_path);
+      } else {
+        parent.children.add(addNode);
+        parent = addNode;
+      }
     }
   }
 }
