@@ -14,8 +14,7 @@ void main() {
   fileTree.add('/root/home/hell0.txt');
   fileTree.add('/root/home/hell1.txt');
   fileTree.add('/root/home/hell3.txt');
-
-  print(fileTree);
+  fileTree.printFileTree();
 }
 
 class FileTree {
@@ -48,13 +47,39 @@ class FileTree {
         parent.children.add(addNode);
         return addNode;
       });
+    }
+  }
 
-      // if (parent.children.any((element) => element.path == _path)) {
-      //   parent = parent.children.firstWhere((e) =>e.path ==_path);
-      // } else {
-      //   parent.children.add(addNode);
-      //   parent = addNode;
-      // }
+  void addFile(String path) {
+    Uri uri = Uri.parse(path);
+    addNode(_root, uri.pathSegments, 0);
+  }
+
+  FileNode addNode(FileNode parent, List<String> parts, int depth) {
+    if (depth == parts.length) {
+      String path = "/${parts.join('/')}";
+      return FileNode(path);
+    }
+    String path = "/${parts.sublist(0, depth + 1).join('/')}";
+    List<FileNode> children = parent.children;
+    FileNode node = FileNode(path);
+    Iterable<FileNode> targets = children.where((e) => e.path == path);
+    if (targets.isNotEmpty) {
+      addNode(parent, parts, depth);
+    } else {
+      parent.children.add(addNode(node, parts, depth + 1));
+    }
+    return parent;
+  }
+
+  printFileTree() {
+    printNode(_root);
+  }
+
+  printNode(FileNode node) {
+    print(node.path);
+    for (var element in node.children) {
+      printNode(element);
     }
   }
 }
