@@ -28,6 +28,8 @@ void main() {
 class FileTree {
   final FileNode _root = FileNode('/');
 
+
+  
   // void add(String path) {
   //   List<String> paths = path.trim().split('/');
   //   paths.removeWhere((element) => element == "");
