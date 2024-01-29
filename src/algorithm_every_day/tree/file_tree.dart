@@ -14,7 +14,15 @@ void main() {
   fileTree.add('/root/home/hell0.txt');
   fileTree.add('/root/home/hell1.txt');
   fileTree.add('/root/home/hell3.txt');
+  fileTree.add('/root/pages/page1.txt');
+  fileTree.add('/root/pages/page2.txt');
+
   fileTree.printFileTree();
+
+
+  print("${fileTree.existence('/root/pages/page2.txt')}");
+  print("${  fileTree.existence('/root/pages/page3.txt')}");
+
 }
 
 class FileTree {
@@ -42,7 +50,6 @@ class FileTree {
       if (part == '') continue;
       _path += "/$part";
       FileNode addNode = FileNode(_path);
-
       parent = parent.children.firstWhere((element) => element.path == _path, orElse: () {
         parent.children.add(addNode);
         return addNode;
@@ -73,13 +80,32 @@ class FileTree {
   }
 
   printFileTree() {
-    printNode(_root);
+    String result = "";
+    printNode(_root, result);
   }
 
-  printNode(FileNode node) {
-    print(node.path);
+  //判断文件是否存在
+  bool existence(String path) {
+    return _existence(_root, path);
+  }
+
+  //当前节点需要做的事情
+  bool _existence(FileNode node, String path) {
+    if (path == node.path) {
+      return true;
+    }
+    for (FileNode element in node.children) {
+      bool exist = _existence(element, path);
+      if(exist) return true;
+    }
+    return false ;
+  }
+
+  printNode(FileNode node, String result) {
+    print(result + node.path);
+    result += "--|";
     for (var element in node.children) {
-      printNode(element);
+      printNode(element, result);
     }
   }
 }
