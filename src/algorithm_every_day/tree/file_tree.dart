@@ -1,3 +1,5 @@
+import '../error/tree_error.dart';
+
 /// 设计一个 FileTree 的文件树结构
 /// 每个节点持有若干个 FileNode 节点
 ///
@@ -19,17 +21,14 @@ void main() {
 
   fileTree.printFileTree();
 
-
   print("${fileTree.existence('/root/pages/page2.txt')}");
-  print("${  fileTree.existence('/root/pages/page3.txt')}");
-
+  print("${fileTree.existence('/root/pages/page3.txt')}");
+  fileTree.deleteNode('/root/pages/page4.txt');
 }
 
 class FileTree {
   final FileNode _root = FileNode('/');
 
-
-  
   // void add(String path) {
   //   List<String> paths = path.trim().split('/');
   //   paths.removeWhere((element) => element == "");
@@ -98,9 +97,9 @@ class FileTree {
     }
     for (FileNode element in node.children) {
       bool exist = _existence(element, path);
-      if(exist) return true;
+      if (exist) return true;
     }
-    return false ;
+    return false;
   }
 
   printNode(FileNode node, String result) {
@@ -109,6 +108,20 @@ class FileTree {
     for (var element in node.children) {
       printNode(element, result);
     }
+  }
+
+  //删除一个叶子节点的路径文件
+  void deleteNode(String path) {
+    if (!existence(path)) {
+      // throw CustomError("删除文件不存在");
+    } else {
+
+    }
+  }
+
+  // 判断是否是叶子节点
+  bool isLeaf(FileNode node) {
+    return node.children.isEmpty;
   }
 }
 
