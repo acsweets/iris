@@ -25,7 +25,6 @@ void main() {
   // print("${fileTree.existence('/root/pages/page3.txt')}");
   fileTree.deleteNode('/root/pages/page2.txt');
   fileTree.printFileTree();
-
 }
 
 class FileTree {
@@ -120,11 +119,12 @@ class FileTree {
   }
 
   bool _deleteNode(FileNode node, String path) {
-    if (node.children.any((element) => element.path == path)) {
+    bool exist = node.children.any((element) => element.path == path);
+    if (exist) {
       node.children.removeWhere((element) => element.path == path);
       return true;
     } else {
-      for (var element in node.children) {
+      for (FileNode element in node.children) {
         if (!isLeaf(element)) {
           bool delete = _deleteNode(element, path);
           if (delete) return true;
