@@ -119,9 +119,11 @@ class FileTree {
   }
 
   bool _deleteNode(FileNode node, String path) {
-    bool exist = node.children.any((element) => element.path == path);
-    if (exist) {
-      node.children.removeWhere((element) => element.path == path);
+    List<FileNode> removeNode = node.children.where((element) => element.path == path).toList();
+    if (removeNode.isNotEmpty) {
+      for (FileNode element in removeNode) {
+        node.children.remove(element);
+      }
       return true;
     } else {
       for (FileNode element in node.children) {
