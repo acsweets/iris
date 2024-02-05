@@ -140,6 +140,17 @@ class FileTree {
   bool isLeaf(FileNode node) {
     return node.children.isEmpty;
   }
+
+  void removeFolders() {
+
+
+
+  }
+  //删除
+
+
+
+
 }
 
 class FileNode {
