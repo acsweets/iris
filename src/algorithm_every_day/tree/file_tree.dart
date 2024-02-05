@@ -21,9 +21,11 @@ void main() {
 
   fileTree.printFileTree();
 
-  print("${fileTree.existence('/root/pages/page2.txt')}");
-  print("${fileTree.existence('/root/pages/page3.txt')}");
-  fileTree.deleteNode('/root/pages/page4.txt');
+  // print("${fileTree.existence('/root/pages/page2.txt')}");
+  // print("${fileTree.existence('/root/pages/page3.txt')}");
+  fileTree.deleteNode('/root/pages/page2.txt');
+  fileTree.printFileTree();
+
 }
 
 class FileTree {
@@ -110,12 +112,25 @@ class FileTree {
     }
   }
 
-  //删除一个叶子节点的路径文件
+//  删除一个叶子节点的路径文件
   void deleteNode(String path) {
-    if (!existence(path)) {
-      // throw CustomError("删除文件不存在");
-    } else {
+    if (!_deleteNode(_root, path)) {
+      throw CustomError("删除失败");
+    }
+  }
 
+  bool _deleteNode(FileNode node, String path) {
+    if (node.children.any((element) => element.path == path)) {
+      node.children.removeWhere((element) => element.path == path);
+      return true;
+    } else {
+      for (var element in node.children) {
+        if (!isLeaf(element)) {
+          bool delete = _deleteNode(element, path);
+          if (delete) return true;
+        }
+      }
+      return false;
     }
   }
 
