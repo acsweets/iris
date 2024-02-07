@@ -112,10 +112,8 @@ class FileTree {
       return true;
     } else {
       for (FileNode element in node.children) {
-        if (!isLeaf(element)) {
           bool delete = _deleteNode(element, path);
           if (delete) return true;
-        }
       }
       return false;
     }
@@ -126,7 +124,6 @@ class FileTree {
     return node.children.isEmpty;
   }
 
-  void removeFolders() {}
 
 //生成json文件
   Map<String, dynamic> treeToJSON() {

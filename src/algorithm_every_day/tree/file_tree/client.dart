@@ -42,4 +42,7 @@ void main() {
   FileTree tree = FileTree.fromJsonToTree(json);
 
   tree.printFileTree();
+  tree.deleteNode("/root/toly");
+  tree.printFileTree();
+
 }
