@@ -1,4 +1,4 @@
-import 'list/3.dart';
+import '../list/3.dart';
 
 ///合并两个升序链表并返回
 ///

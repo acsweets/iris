@@ -1,3 +1,6 @@
+import '../../error/tree_error.dart';
+import 'file_tree_node.dart';
+
 /// 设计一个 FileTree 的文件树结构
 /// 每个节点持有若干个 FileNode 节点
 ///
@@ -9,22 +12,20 @@
 ///         children: /root/home
 ///            children: /root/home/hell0.txt
 
-void main() {
-  FileTree fileTree = FileTree();
-  fileTree.add('/root/home/hell0.txt');
-  fileTree.add('/root/home/hell1.txt');
-  fileTree.add('/root/home/hell3.txt');
-  fileTree.add('/root/pages/page1.txt');
-  fileTree.add('/root/pages/page2.txt');
-
-  fileTree.printFileTree();
 
 
-  print("${fileTree.existence('/root/pages/page2.txt')}");
-  print("${  fileTree.existence('/root/pages/page3.txt')}");
+class FileTree {
+  FileNode _root = FileNode(path: '/');
 
-}
+  FileTree();
 
+  factory FileTree.fromJsonToTree(Map<String, dynamic> json) {
+    FileTree tree = FileTree();
+    tree.fromJson(json);
+    return tree;
+  }
+
+<<<<<<< HEAD:src/algorithm_every_day/tree/file_tree.dart
 class FileTree {
   final FileNode _root = FileNode('/');
 
@@ -42,6 +43,11 @@ class FileTree {
   //     node = addNode;
   //   }
   // }
+=======
+  void fromJson(Map<String, dynamic> json) {
+    _root = FileNode.fromJson(json);
+  }
+>>>>>>> 53480809d2945f06a8f2ea3ef7af91adea5d2786:src/algorithm_every_day/tree/file_tree/file_tree.dart
 
   void add(String path) {
     List<String> paths = path.trim().split('/');
@@ -50,7 +56,7 @@ class FileTree {
     for (String part in paths) {
       if (part == '') continue;
       _path += "/$part";
-      FileNode addNode = FileNode(_path);
+      FileNode addNode = FileNode(path: _path);
       parent = parent.children.firstWhere((element) => element.path == _path, orElse: () {
         parent.children.add(addNode);
         return addNode;
@@ -66,11 +72,11 @@ class FileTree {
   FileNode addNode(FileNode parent, List<String> parts, int depth) {
     if (depth == parts.length) {
       String path = "/${parts.join('/')}";
-      return FileNode(path);
+      return FileNode(path: path);
     }
     String path = "/${parts.sublist(0, depth + 1).join('/')}";
     List<FileNode> children = parent.children;
-    FileNode node = FileNode(path);
+    FileNode node = FileNode(path: path);
     Iterable<FileNode> targets = children.where((e) => e.path == path);
     if (targets.isNotEmpty) {
       addNode(parent, parts, depth);
@@ -97,9 +103,9 @@ class FileTree {
     }
     for (FileNode element in node.children) {
       bool exist = _existence(element, path);
-      if(exist) return true;
+      if (exist) return true;
     }
-    return false ;
+    return false;
   }
 
   printNode(FileNode node, String result) {
@@ -109,11 +115,54 @@ class FileTree {
       printNode(element, result);
     }
   }
+
+//  删除一个叶子节点的路径文件
+  void deleteNode(String path) {
+    if (!_deleteNode(_root, path)) {
+      throw CustomError("删除失败");
+    }
+  }
+
+  bool _deleteNode(FileNode node, String path) {
+    List<FileNode> removeNode = node.children.where((element) => element.path == path).toList();
+    if (removeNode.isNotEmpty) {
+      for (FileNode element in removeNode) {
+        node.children.remove(element);
+      }
+      return true;
+    } else {
+      for (FileNode element in node.children) {
+          bool delete = _deleteNode(element, path);
+          if (delete) return true;
+      }
+      return false;
+    }
+  }
+
+  // 判断是否是叶子节点
+  bool isLeaf(FileNode node) {
+    return node.children.isEmpty;
+  }
+
+
+//生成json文件
+  Map<String, dynamic> treeToJSON() {
+    return _root.toJson();
+  }
+
+
+// void add(String path) {
+//   List<String> paths = path.trim().split('/');
+//   paths.removeWhere((element) => element == "");
+//   String _path = "";
+//   FileNode node = _root;
+//   for (String element in paths) {
+//     _path += "/$element";
+//     FileNode addNode = FileNode(_path);
+//
+//     node.children.add(addNode);
+//     node = addNode;
+//   }
+// }
 }
 
-class FileNode {
-  String path;
-  List<FileNode> children = [];
-
-  FileNode(this.path);
-}

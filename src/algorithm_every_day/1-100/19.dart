@@ -2,7 +2,7 @@
 // 双指针 快慢指针
 
 
-import 'link_list_test.dart';
+import '../link_list_test.dart';
 
 List<int> numberList = [1, 2, 5, 3, 4, 5, 6, 7, 8, 9, 10];
 
